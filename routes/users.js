@@ -8,7 +8,6 @@ router.post('/register', function (req, res, next) {
     try {
         let userName = req.body.username;
         let password = req.body.password;
-        console.log('req', req.body)
         if (userName && password) {
             userName = userName.trim();
             if (!userModel.isLegalUserName(userName)) throw '用户名不合法';
@@ -34,25 +33,21 @@ router.post('/register', function (req, res, next) {
     }
 })
 
-// 登录
-router.get('/login', function (req, res, next) {
-    const username = req.query.username;
-    const password = req.query.password;
-    try {
-        if (!username || !password) throw '用户名或密码错误'
-
-        userModel.usernameLogin({username, password}, function (error, result) {
-            if (!error) {
-                if (result.length > 0) {
-
-                }
-            }
-        })
-
-    } catch (e) {
-        res.end(JSON.stringify(errorModel.getErrorModel(e, 10000)))
+// 获取用户信息
+router.get('/userinfo', function (req, res, next) {
+    const userId = req.query.userId;
+    if (!userId) {
+        res.end(JSON.stringify(errorModel.getErrorModel('参数错误', 10000)));
+        return
     }
-    res.end()
+    userModel.getById(userId, function (error, result) {
+        console.log(req.path, 'result', result, 'error', error)
+        if (error) {
+            res.end(JSON.stringify(errorModel.getErrorModel('error', 10000)));
+        } else {
+            res.end(JSON.stringify({data: result, code: 200}));
+        }
+    })
 })
 
 module.exports = router;

@@ -22,11 +22,7 @@ const self = module.exports = {
     },
     getById: function (id, callback) {
         userDAO.getById(id, function (error, result) {
-            if (error) {
-                callback(error)
-            } else {
-                callback(null, this.getUserModel(null, username, avatar, password))
-            }
+            callback(error, result)
         })
     },
     update: function (user, callback) {

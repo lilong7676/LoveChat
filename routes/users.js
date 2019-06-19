@@ -39,10 +39,15 @@ router.get('/userinfo', function (req, res, next) {
     new Promise((resolve, reject) => {
         let userId = req.query.userId;
         if (!userId) {
+            // 如果没有userId,则根据token获取当前用户信息
             if (req.headers.authorization) {
                 const token = req.headers.authorization.split(' ')[1];
                 oauthModel.getUserIdByAccessToken(token).then(result => {
-                    resolve(result[0].userId)
+                    if (result) {
+                        resolve(result.userId)
+                    } else {
+                        reject()
+                    }
                 }).catch(error => {
                     reject(error)
                 })

@@ -56,16 +56,28 @@ module.exports.saveToken = function(token, client, user) {
     }
     console.log('saveToken', accessToken)
     return new Promise((resolve, reject) => {
-        oauthDAO.saveToken(accessToken).then(result => {
-            if (result && result.affectedRows > 0) {
-                resolve(accessToken)
-            }
-        }).catch(error => {
-            reject(error)
+        new Promise(resolve1 => {
+            module.exports.revokeTokenByUserId(user.userId).then(revokeResult => {
+                resolve1(revokeResult)
+            }).catch(revokeError => {
+                resolve1()
+            })
+        }).then(revokeResult => {
+            oauthDAO.saveToken(accessToken).then(result => {
+                if (result && result.affectedRows > 0) {
+                    resolve(accessToken)
+                }
+            }).catch(error => {
+                reject(error)
+            })
         })
     })
 };
 
 module.exports.getUserIdByAccessToken = function (token) {
     return oauthDAO.getUserIdByAccessToken(token)
+}
+
+module.exports.revokeTokenByUserId = function (userId) {
+    return oauthDAO.revokeTokenByUserId(userId)
 }

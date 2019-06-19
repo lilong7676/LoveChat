@@ -65,8 +65,17 @@ module.exports = {
             })
         })
     },
-    deleteTokenByUserId: function (userId) {
-
+    revokeTokenByUserId: function (userId) {
+        return new Promise((resolve, reject) => {
+            pool.query(oauthSqlMap.revokeTokenByUserId, userId, function (error, result) {
+                console.log('revokeTokenByUserId result', result, 'error', error)
+                if (error) {
+                    reject(error)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
     },
     getUserIdByAccessToken: function (accessToken) {
         return new Promise((resolve, reject) => {

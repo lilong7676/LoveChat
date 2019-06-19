@@ -65,3 +65,7 @@ module.exports.saveToken = function(token, client, user) {
         })
     })
 };
+
+module.exports.getUserIdByAccessToken = function (token) {
+    return oauthDAO.getUserIdByAccessToken(token)
+}

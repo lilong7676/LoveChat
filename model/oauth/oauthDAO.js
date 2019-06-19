@@ -67,5 +67,17 @@ module.exports = {
     },
     deleteTokenByUserId: function (userId) {
 
+    },
+    getUserIdByAccessToken: function (accessToken) {
+        return new Promise((resolve, reject) => {
+            pool.query(oauthSqlMap.getUserIdByAccessToken, accessToken, function (error, result) {
+                console.log('getUserIdByAccessToken result', result, 'error', error)
+                if (error) {
+                    reject(error)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
     }
 }

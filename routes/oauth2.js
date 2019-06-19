@@ -1,5 +1,5 @@
-var express = require('express');
-var router = express.Router();
+const express = require('express');
+const router = express.Router();
 const OAuth2Server = require('oauth2-server');
 const Request = OAuth2Server.Request;
 const Response = OAuth2Server.Response;

@@ -30,10 +30,7 @@ const self = module.exports = {
     },
     // 更新用户信息
     update: function (user, callback) {
-        pool.query(userSqlMap.update, [user.username, user.password, user.id], function (error, result) {
-            if (error) throw error;
-            callback(result.affectedRows > 0);
-        });
+        userDAO.update(user, callback)
     },
     // 获取userId（不对外暴露接口，仅内部使用）
     getUserId: function(accessToken) {

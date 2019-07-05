@@ -8,6 +8,7 @@ const oauth = new OAuth2Server({
 });
 
 const errorModel = require('../model/error/errorModel')
+const oauthModel = require('../model/oauth/oauthModel')
 
 // 根据用户名密码获取token
 router.post('/token', function(req, res, next) {
@@ -30,5 +31,20 @@ router.post('/token', function(req, res, next) {
         res.end(JSON.stringify(errorModel.getErrorModel('用户名或密码错误', 10000)))
     })
 });
+
+// 退出登录
+router.get('/logout', function (req, res, next) {
+    if (req.headers.authorization) {
+        const token = req.headers.authorization.split(' ')[1];
+        oauthModel.revokeToken(token).then(result => {
+            res.end(JSON.stringify({code: 200}))
+        }).catch(error => {
+            res.end(JSON.stringify({code: 500}))
+        })
+
+    } else {
+        res.end(JSON.stringify({code: 500}))
+    }
+})
 
 module.exports = router;

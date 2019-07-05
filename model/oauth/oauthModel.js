@@ -81,3 +81,7 @@ module.exports.getUserIdByAccessToken = function (token) {
 module.exports.revokeTokenByUserId = function (userId) {
     return oauthDAO.revokeTokenByUserId(userId)
 }
+
+module.exports.revokeToken = function (accessToken) {
+    return oauthDAO.revokeToken(accessToken)
+}

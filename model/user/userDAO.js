@@ -1,6 +1,7 @@
 const mysql = require('mysql')
 const mysqlConfig = require('../../dbConfig/db')
 const userSqlMap = require('./userSqlMap')
+const oauthDAO = require('./../oauth/oauthDAO')
 
 const pool = mysql.createPool(mysqlConfig.mysql)
 
@@ -57,5 +58,10 @@ const self = module.exports = {
             if (error) throw error;
             callback(result.affectedRows > 0);
         });
+    },
+    getUserId: function (accesssToken) {
+        return new Promise((resolve, reject) => {
+            oauthDAO.getUserIdByAccessToken(accesssToken).then(result => resolve(result))
+        })
     }
 }

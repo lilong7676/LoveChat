@@ -77,6 +77,17 @@ module.exports = {
             })
         })
     },
+    revokeToken: function(accessToken) {
+        return new Promise((resolve, reject) => {
+            pool.query(oauthSqlMap.revokeToken, accessToken, function (error, result) {
+                if (error) {
+                    reject(error)
+                } else {
+                    resolve(result)
+                }
+            })
+        })
+    },
     getUserIdByAccessToken: function (accessToken) {
         return new Promise((resolve, reject) => {
             pool.query(oauthSqlMap.getUserIdByAccessToken, accessToken, function (error, result) {

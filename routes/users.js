@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const userModel = require('../model/user/userModel')
 const oauthModel = require('../model/oauth/oauthModel')
-const errorModel = require('../model/error/errorModel')
+const resModel = require('../model/response/responseModel')
 
 // 注册用户
 router.post('/register', function (req, res, next) {
@@ -20,17 +20,17 @@ router.post('/register', function (req, res, next) {
             }
             userModel.register(register, function (error, result) {
                 if (error) {
-                    res.end(JSON.stringify(errorModel.getErrorModel(error, 10000)))
+                    res.end(resModel.getErrorModel(error))
                     return;
                 }
-                res.end(JSON.stringify(errorModel.getErrorModel('注册成功', 200)))
+                res.end(resModel.getSuccessModel())
             })
 
         } else {
             throw '用户名密码不合法';
         }
     } catch (e) {
-        res.end(JSON.stringify(errorModel.getErrorModel(e, 10000)))
+        res.end(resModel.getErrorModel(error))
     }
 })
 
@@ -62,15 +62,15 @@ router.get('/userinfo', function (req, res, next) {
         userModel.getById(userId, function (error, result) {
             console.log(req.path, 'result', result, 'error', error)
             if (error) {
-                res.end(JSON.stringify(errorModel.getErrorModel('error', 10000)));
+                res.end(resModel.getErrorModel(error));
             } else if (!result) {
-                res.end(JSON.stringify(errorModel.getErrorModel('无此用户', 10000)));
+                res.end(resModel.getErrorModel('无此用户'));
             } else {
-                res.end(JSON.stringify({data: result, code: 200}));
+                res.end(resModel.getSuccessModel(result));
             }
         })
     }).catch(e => {
-        res.end(JSON.stringify(errorModel.getErrorModel('参数错误', 10000)));
+        res.end(resModel.getErrorModel('参数错误'));
     })
 })
 

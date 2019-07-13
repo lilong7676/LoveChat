@@ -7,7 +7,7 @@ const oauth = new OAuth2Server({
     model: require('./../model/oauth/oauthModel')
 });
 
-const errorModel = require('../model/error/errorModel')
+const responseModel = require('../model/response/responseModel')
 const oauthModel = require('../model/oauth/oauthModel')
 
 // 根据用户名密码获取token
@@ -25,10 +25,10 @@ router.post('/token', function(req, res, next) {
 
     oauth.token(request, response).then(result => {
         console.log('/oauth/token result', result)
-        res.end(JSON.stringify({token: result, code: 200}))
+        res.end(responseModel.getSuccessModel(result))
     }).catch(error => {
         console.log('/oauth/token error', error)
-        res.end(JSON.stringify(errorModel.getErrorModel('用户名或密码错误', 10000)))
+        res.end(responseModel.getBaseModel(responseModel.invalidTokenCode, '用户名或密码错误'))
     })
 });
 

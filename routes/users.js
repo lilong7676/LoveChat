@@ -20,17 +20,17 @@ router.post('/register', function (req, res, next) {
             }
             userModel.register(register, function (error, result) {
                 if (error) {
-                    res.end(resModel.getErrorModel(error))
+                    res.json(resModel.getErrorModel(error))
                     return;
                 }
-                res.end(resModel.getSuccessModel())
+                res.json(resModel.getSuccessModel())
             })
 
         } else {
             throw '用户名密码不合法';
         }
     } catch (e) {
-        res.end(resModel.getErrorModel(error))
+        res.json(resModel.getErrorModel(error))
     }
 })
 
@@ -62,15 +62,15 @@ router.get('/userinfo', function (req, res, next) {
         userModel.getById(userId, function (error, result) {
             console.log(req.path, 'result', result, 'error', error)
             if (error) {
-                res.end(resModel.getErrorModel(error));
+                res.json(resModel.getErrorModel(error));
             } else if (!result) {
-                res.end(resModel.getErrorModel('无此用户'));
+                res.json(resModel.getErrorModel('无此用户'));
             } else {
-                res.end(resModel.getSuccessModel(result));
+                res.json(resModel.getSuccessModel(result));
             }
         })
     }).catch(e => {
-        res.end(resModel.getErrorModel('参数错误'));
+        res.json(resModel.getErrorModel('参数错误'));
     })
 })
 

@@ -25,10 +25,10 @@ router.post('/token', function(req, res, next) {
 
     oauth.token(request, response).then(result => {
         console.log('/oauth/token result', result)
-        res.end(responseModel.getSuccessModel(result))
+        res.json(responseModel.getSuccessModel(result))
     }).catch(error => {
         console.log('/oauth/token error', error)
-        res.end(responseModel.getBaseModel(responseModel.invalidTokenCode, '用户名或密码错误'))
+        res.json(responseModel.getBaseModel(responseModel.invalidTokenCode, '用户名或密码错误'))
     })
 });
 
@@ -37,13 +37,13 @@ router.get('/logout', function (req, res, next) {
     if (req.headers.authorization) {
         const token = req.headers.authorization.split(' ')[1];
         oauthModel.revokeToken(token).then(result => {
-            res.end(JSON.stringify({code: 200}))
+            res.json({code: 200})
         }).catch(error => {
-            res.end(JSON.stringify({code: 500}))
+            res.json({code: 500})
         })
 
     } else {
-        res.end(JSON.stringify({code: 500}))
+        res.json({code: 500})
     }
 })
 

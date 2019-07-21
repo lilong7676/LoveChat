@@ -74,4 +74,6 @@ typings/
 # Serverless directories
 .serverless
 
-/dbConfig/db.js
+dbConfig/
+.package-lock.json
+

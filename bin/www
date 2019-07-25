@@ -8,6 +8,9 @@ var app = require('../app');
 var debug = require('debug')('lovechat:server');
 var http = require('http');
 
+var ioManager = require('./../model/chat/ioManager');
+
+
 /**
  * Get port from environment and store in Express.
  */
@@ -21,14 +24,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
-var io = require('socket.io')(server);
-
-io.on('connection', function(socket) {
-  socket.emit('msg', {hello: 'world'});
-  socket.on('msg', function(data) {
-    console.log(data);
-  });
-})
+ioManager.initSockeWithServer(server);
 
 /**
  * Listen on provided port, on all network interfaces.

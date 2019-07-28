@@ -6,5 +6,6 @@ module.exports = {
     deleteById: '',
     update: 'update users set username=?, avatar=? where userId=?',
     list: 'select * from users',
-    getById: 'select * from users where userId = ?'
+    getById: 'select * from users where userId = ?',
+    getByAccessToken: 'select * from users where userId = (select userId from oauth where accessToken=? and accessTokenExpiresAt > CURRENT_TIMESTAMP())',
 }

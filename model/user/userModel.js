@@ -50,5 +50,8 @@ const self = module.exports = {
     isLegalUserName: function (username) {
         const pattern = new RegExp("[`~!@#$^&*()=|{}':;',\\[\\].<>《》/?~！@#￥……&*（）——|{}【】‘；：”“'。，、？ ]");
         return !pattern.test(username);
+    },
+    getByAccessToken: function(accessToken) {
+        return userDAO.getByAccessToken(accessToken);
     }
 }

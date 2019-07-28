@@ -63,5 +63,16 @@ const self = module.exports = {
         return new Promise((resolve, reject) => {
             oauthDAO.getUserIdByAccessToken(accesssToken).then(result => resolve(result))
         })
+    },
+    getByAccessToken: function(accessToken) {
+        return new Promise((resolve, reject) => {
+            pool.query(userSqlMap.getByAccessToken, accessToken, function(error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result[0]);
+                }
+            });
+        })
     }
 }

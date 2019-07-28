@@ -99,5 +99,16 @@ module.exports = {
                 }
             })
         })
+    },
+    getIsValidAccessToken: function(accessToken) {
+        return new Promise((resolve, reject) => {
+            pool.query(oauthSqlMap.getValidAccessToken, accessToken, function(error, result) {
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(result[0]);
+                }
+            })
+        })
     }
 }
